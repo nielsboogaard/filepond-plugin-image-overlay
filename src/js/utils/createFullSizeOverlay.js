@@ -35,10 +35,11 @@ export const createFullSizeOverlay = (item) => {
     overlay.className = 'filepond--fullsize-overlay';
 
     const imgContainer = document.createElement('div');
+    const imgUrl = URL.createObjectURL(item.file);
     imgContainer.className = 'image-container';
-    imgContainer.style.backgroundImage = 'url(' + URL.createObjectURL(item.file) + ')';
+    imgContainer.style.backgroundImage = 'url(' + imgUrl + ')';
 
-    determineImageOverlaySize(item, imgContainer);
+    determineImageOverlaySize(imgUrl, imgContainer);
 
     let body = document.getElementsByTagName("body")[0];
 
@@ -52,12 +53,11 @@ export const createFullSizeOverlay = (item) => {
  * Determines whether the image is larger than the viewport.
  * If so, set the backgroundSize to 'contain' to scale down the image so it fits the overlay.
  */
-export const determineImageOverlaySize = (item, imgContainer) => {
+export const determineImageOverlaySize = (imgUrl, imgContainer) => {
     const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-          h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-          fileURL = URL.createObjectURL(item.file);
+          h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-    getImageSize(fileURL, (width, height) => {
+    getImageSize(imgUrl, (width, height) => {
         if (width > w || height > h) {
             imgContainer.style.backgroundSize = 'contain';
         }
