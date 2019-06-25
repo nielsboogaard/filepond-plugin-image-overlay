@@ -5,7 +5,7 @@
 
 The Image Overlay plugin will add a tiny 'eye' icon in front of the filename to allow opening the uploaded image in a large overlay. In case the Image Preview plugin is used, the preview itself will be made clickable as well.
 
-<img src="https://github.com/nielsboogaard/filepond-plugin-image-overlay/blob/master/demo.gif?raw=true" width="508" alt=""/>
+<img src="https://github.com/nielsboogaard/filepond-plugin-image-overlay/blob/master/demo.gif?raw=true" width="100%" alt=""/>
 
 
 ## Quick Start
