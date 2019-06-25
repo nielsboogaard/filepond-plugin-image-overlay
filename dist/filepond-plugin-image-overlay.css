@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginmediaPreview 1.0.1
+ * FilePondPluginmediaPreview 1.0.2
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -26,6 +26,9 @@
   background-color: #fff;
   cursor: pointer;
   pointer-events: auto;
+}
+.filepond--magnify-icon:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .filepond--fullsize-overlay {

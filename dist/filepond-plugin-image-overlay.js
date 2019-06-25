@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginImageOverlay 1.0.1
+ * FilePondPluginImageOverlay 1.0.2
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -35,9 +35,9 @@
    * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
    */
 
-  const registerFullSizeOverlay = (item, el) => {
+  const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
     const info = el.querySelector('.filepond--file-info-main'),
-      magnifyIcon = getMagnifyIcon();
+      magnifyIcon = getMagnifyIcon(labelButtonOverlay);
     info.prepend(magnifyIcon);
     magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item)); // in case the image preview plugin is loaded, make the preview clickable as well.
     // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
@@ -53,9 +53,10 @@
       }
     }, 1000);
   };
-  const getMagnifyIcon = () => {
+  const getMagnifyIcon = labelButtonOverlay => {
     let icon = document.createElement('span');
     icon.className = 'filepond--magnify-icon';
+    icon.title = labelButtonOverlay;
     return icon;
   };
   /**
@@ -120,7 +121,8 @@
           return;
         }
 
-        registerFullSizeOverlay(item, root.element); // now ready
+        const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
+        registerFullSizeOverlay(item, root.element, labelButtonOverlay); // now ready
 
         root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', {
           id
@@ -143,7 +145,9 @@
     }); // expose plugin
 
     return {
-      options: {}
+      options: {
+        labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
+      }
     };
   }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
 

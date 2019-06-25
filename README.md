@@ -38,6 +38,15 @@ document.body.appendChild(pond.element);
 ```
  The functionality will become active when uploading an image.
 
+## Configuration
+
+The label of the image overlay icon can be adjusted as follows:
+```js
+const pond = FilePond.create({
+    name: 'filepond',
+    labelButtonImageOverlay: 'custom label' // by default 'Open image in overlay file'
+});
+```
 
 ## Demo
 [View the demo](https://nielsboogaard.github.io/filepond-plugin-image-overlay/)

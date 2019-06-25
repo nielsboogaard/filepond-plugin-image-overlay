@@ -29,7 +29,8 @@ const plugin = fpAPI => {
                 return;
             }
 
-            registerFullSizeOverlay(item, root.element);
+            const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
+            registerFullSizeOverlay(item, root.element, labelButtonOverlay);
 
             // now ready
             root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', { id });
@@ -51,7 +52,9 @@ const plugin = fpAPI => {
 
     // expose plugin
     return {
-        options: {}
+        options: {
+            labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
+        }
     };
 };
 

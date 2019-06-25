@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginImageOverlay 1.0.1
+ * FilePondPluginImageOverlay 1.0.2
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -22,9 +22,9 @@ const getImageSize = (url, cb) => {
 /**
  * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
  */
-const registerFullSizeOverlay = (item, el) => {
+const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
   const info = el.querySelector('.filepond--file-info-main'),
-    magnifyIcon = getMagnifyIcon();
+    magnifyIcon = getMagnifyIcon(labelButtonOverlay);
 
   info.prepend(magnifyIcon);
   magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item));
@@ -40,9 +40,10 @@ const registerFullSizeOverlay = (item, el) => {
   }, 1000);
 };
 
-const getMagnifyIcon = () => {
+const getMagnifyIcon = labelButtonOverlay => {
   let icon = document.createElement('span');
   icon.className = 'filepond--magnify-icon';
+  icon.title = labelButtonOverlay;
   return icon;
 };
 
@@ -115,7 +116,8 @@ const plugin = fpAPI => {
         return;
       }
 
-      registerFullSizeOverlay(item, root.element);
+      const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
+      registerFullSizeOverlay(item, root.element, labelButtonOverlay);
 
       // now ready
       root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', { id });
@@ -140,7 +142,9 @@ const plugin = fpAPI => {
 
   // expose plugin
   return {
-    options: {}
+    options: {
+      labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
+    }
   };
 };
 

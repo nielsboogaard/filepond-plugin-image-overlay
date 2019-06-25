@@ -15,6 +15,10 @@
     background-color: #fff;
     cursor: pointer;
     pointer-events: auto;
+
+    &:hover {
+        background: rgba(#fff, .5);
+    }
 }
 
 .filepond--fullsize-overlay {
