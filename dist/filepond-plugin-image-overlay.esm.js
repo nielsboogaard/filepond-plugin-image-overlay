@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginImageOverlay 1.0.3
+ * FilePondPluginImageOverlay 1.0.4
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
