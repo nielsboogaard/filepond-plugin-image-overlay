@@ -1,22 +1,22 @@
 /*!
- * FilePondPluginImageOverlay 1.0.5
+ * FilePondPluginImageOverlay 1.0.6
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
 
 /* eslint-disable */
 
-(function(global, factory) {
+(function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined'
     ? (module.exports = factory())
     : typeof define === 'function' && define.amd
     ? define(factory)
     : ((global = global || self),
       (global.FilePondPluginImageOverlay = factory()));
-})(this, function() {
+})(this, function () {
   'use strict';
 
-  const isImage = file => /^image/.test(file.type);
+  const isImage = (file) => /^image/.test(file.type);
 
   const getImageSize = (url, cb) => {
     let image = new Image();
@@ -53,7 +53,7 @@
       }
     }, 1000);
   };
-  const getMagnifyIcon = labelButtonOverlay => {
+  const getMagnifyIcon = (labelButtonOverlay) => {
     let icon = document.createElement('span');
     icon.className = 'filepond--magnify-icon';
     icon.title = labelButtonOverlay;
@@ -63,7 +63,7 @@
    * Generate the full size overlay and present the image in it.
    */
 
-  const createFullSizeOverlay = item => {
+  const createFullSizeOverlay = (item) => {
     const overlay = document.createElement('div');
     overlay.className = 'filepond--fullsize-overlay';
     const imgContainer = document.createElement('div');
@@ -101,11 +101,11 @@
    * Image Overlay Plugin
    */
 
-  const plugin = fpAPI => {
+  const plugin = (fpAPI) => {
     const { addFilter, utils } = fpAPI;
     const { Type, createRoute } = utils; // called for each view that is created right after the 'create' method
 
-    addFilter('CREATE_VIEW', viewAPI => {
+    addFilter('CREATE_VIEW', (viewAPI) => {
       // get reference to created view
       const { is, view, query } = viewAPI; // only hook up to item view
 
@@ -125,14 +125,14 @@
         registerFullSizeOverlay(item, root.element, labelButtonOverlay); // now ready
 
         root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', {
-          id
+          id,
         });
       }; // start writing
 
       view.registerWriter(
         createRoute(
           {
-            DID_LOAD_ITEM: didLoadItem
+            DID_LOAD_ITEM: didLoadItem,
           },
           ({ root, props }) => {
             const { id } = props;
@@ -146,8 +146,8 @@
 
     return {
       options: {
-        labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
-      }
+        labelButtonImageOverlay: ['Open image in overlay', Type.STRING],
+      },
     };
   }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
 
@@ -157,7 +157,7 @@
   if (isBrowser) {
     document.dispatchEvent(
       new CustomEvent('FilePond:pluginloaded', {
-        detail: plugin
+        detail: plugin,
       })
     );
   }

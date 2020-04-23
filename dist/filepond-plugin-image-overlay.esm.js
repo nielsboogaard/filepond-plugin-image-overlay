@@ -1,12 +1,12 @@
 /*!
- * FilePondPluginImageOverlay 1.0.5
+ * FilePondPluginImageOverlay 1.0.6
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
 
 /* eslint-disable */
 
-const isImage = file => /^image/.test(file.type);
+const isImage = (file) => /^image/.test(file.type);
 
 const getImageSize = (url, cb) => {
   let image = new Image();
@@ -40,7 +40,7 @@ const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
   }, 1000);
 };
 
-const getMagnifyIcon = labelButtonOverlay => {
+const getMagnifyIcon = (labelButtonOverlay) => {
   let icon = document.createElement('span');
   icon.className = 'filepond--magnify-icon';
   icon.title = labelButtonOverlay;
@@ -50,7 +50,7 @@ const getMagnifyIcon = labelButtonOverlay => {
 /**
  * Generate the full size overlay and present the image in it.
  */
-const createFullSizeOverlay = item => {
+const createFullSizeOverlay = (item) => {
   const overlay = document.createElement('div');
   overlay.className = 'filepond--fullsize-overlay';
 
@@ -93,12 +93,12 @@ const determineImageOverlaySize = (imgUrl, imgContainer) => {
 /**
  * Image Overlay Plugin
  */
-const plugin = fpAPI => {
+const plugin = (fpAPI) => {
   const { addFilter, utils } = fpAPI;
   const { Type, createRoute } = utils;
 
   // called for each view that is created right after the 'create' method
-  addFilter('CREATE_VIEW', viewAPI => {
+  addFilter('CREATE_VIEW', (viewAPI) => {
     // get reference to created view
     const { is, view, query } = viewAPI;
 
@@ -127,7 +127,7 @@ const plugin = fpAPI => {
     view.registerWriter(
       createRoute(
         {
-          DID_LOAD_ITEM: didLoadItem
+          DID_LOAD_ITEM: didLoadItem,
         },
         ({ root, props }) => {
           const { id } = props;
@@ -143,8 +143,8 @@ const plugin = fpAPI => {
   // expose plugin
   return {
     options: {
-      labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
-    }
+      labelButtonImageOverlay: ['Open image in overlay', Type.STRING],
+    },
   };
 };
 
