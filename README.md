@@ -23,6 +23,12 @@ import * as FilePond from 'filepond';
 import FilePondPluginImageOverlay from 'filepond-plugin-image-overlay';
 ```
 
+Also, don't forget to import the belonging styles:
+
+```js
+import 'filepond-plugin-image-overlay/dist/filepond-plugin-image-overlay.css'
+```
+
 Register the plugin:
 ```js
 FilePond.registerPlugin(FilePondPluginImageOverlay);
