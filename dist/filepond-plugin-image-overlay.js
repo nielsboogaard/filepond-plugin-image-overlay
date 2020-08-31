@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginImageOverlay 1.0.6
+ * FilePondPluginImageOverlay 1.0.7
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -11,7 +11,8 @@
     ? (module.exports = factory())
     : typeof define === 'function' && define.amd
     ? define(factory)
-    : ((global = global || self),
+    : ((global =
+        typeof globalThis !== 'undefined' ? globalThis : global || self),
       (global.FilePondPluginImageOverlay = factory()));
 })(this, function () {
   'use strict';

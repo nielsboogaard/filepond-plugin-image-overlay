@@ -1,6 +1,6 @@
 {
     "name": "filepond-plugin-image-overlay",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Image overlay Plugin for FilePond",
     "license": "MIT",
     "author": {
@@ -37,7 +37,7 @@
         "autoprefixer": "^9.7.6",
         "cssnano": "^4.1.10",
         "node-sass": "^4.13.1",
-        "postcss-cli": "^7.1.0",
+        "postcss-cli": "7.1.1",
         "prettier": "^2.0.5",
         "rollup": "^2.7.2",
         "rollup-plugin-babel": "^4.4.0",
