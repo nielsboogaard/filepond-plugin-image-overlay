@@ -4,10 +4,12 @@ import { getImageSize } from './getImageSize';
  * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
  */
 export const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
-    const info = el.querySelector('.filepond--file-info-main'),
+    const info = el.querySelector('.filepond--file-info'),
+          mainInfo = el.querySelector('.filepond--file-info-main'),
           magnifyIcon = getMagnifyIcon(labelButtonOverlay);
 
-    info.prepend(magnifyIcon);
+    mainInfo.setAttribute("style", "margin-left: 23px;")
+    info.append(magnifyIcon);
     magnifyIcon.addEventListener("click", () => createFullSizeOverlay(item));
 
     // in case the image preview plugin is loaded, make the preview clickable as well.
