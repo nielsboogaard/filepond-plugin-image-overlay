@@ -36,7 +36,12 @@
    * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
    */
 
-  const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
+  const registerFullSizeOverlay = (
+    item,
+    el,
+    labelButtonOverlay,
+    allowClickPreviewToShowImageOverlay
+  ) => {
     const info = el.querySelector('.filepond--file-info'),
       mainInfo = el.querySelector('.filepond--file-info-main'),
       magnifyIcon = getMagnifyIcon(labelButtonOverlay);
@@ -50,19 +55,22 @@
     }
 
     container.prepend(magnifyIcon);
-    magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item)); // in case the image preview plugin is loaded, make the preview clickable as well.
-    // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
+    magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item));
 
-    window.setTimeout(() => {
-      const imagePreview = el.querySelector('.filepond--image-preview');
+    if (allowClickPreviewToShowImageOverlay) {
+      // in case the image preview plugin is loaded, make the preview clickable as well.
+      // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
+      window.setTimeout(() => {
+        const imagePreview = el.querySelector('.filepond--image-preview');
 
-      if (imagePreview) {
-        imagePreview.classList.add('clickable');
-        imagePreview.addEventListener('click', () =>
-          createFullSizeOverlay(item)
-        );
-      }
-    }, 1000);
+        if (imagePreview) {
+          imagePreview.classList.add('clickable');
+          imagePreview.addEventListener('click', () =>
+            createFullSizeOverlay(item)
+          );
+        }
+      }, 1000);
+    }
   };
   const getMagnifyIcon = (labelButtonOverlay) => {
     let icon = document.createElement('span');
@@ -133,7 +141,15 @@
         }
 
         const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
-        registerFullSizeOverlay(item, root.element, labelButtonOverlay); // now ready
+        const allowClickPreviewToShowImageOverlay = root.query(
+          'GET_ALLOW_CLICK_PREVIEW_TO_SHOW_IMAGE_OVERLAY'
+        );
+        registerFullSizeOverlay(
+          item,
+          root.element,
+          labelButtonOverlay,
+          allowClickPreviewToShowImageOverlay
+        ); // now ready
 
         root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', {
           id,
@@ -158,6 +174,7 @@
     return {
       options: {
         labelButtonImageOverlay: ['Open image in overlay', Type.STRING],
+        allowClickPreviewToShowImageOverlay: [true, Type.BOOLEAN],
       },
     };
   }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags

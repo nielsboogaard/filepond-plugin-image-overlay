@@ -3,7 +3,7 @@ import { getImageSize } from './getImageSize';
 /**
  * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
  */
-export const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
+export const registerFullSizeOverlay = (item, el, labelButtonOverlay, allowClickPreviewToShowImageOverlay) => {
     const info = el.querySelector('.filepond--file-info'),
           mainInfo = el.querySelector('.filepond--file-info-main'),
           magnifyIcon = getMagnifyIcon(labelButtonOverlay);
@@ -19,15 +19,17 @@ export const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
     container.prepend(magnifyIcon);
     magnifyIcon.addEventListener("click", () => createFullSizeOverlay(item));
 
-    // in case the image preview plugin is loaded, make the preview clickable as well.
-    // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
-    window.setTimeout(() => {
-        const imagePreview = el.querySelector('.filepond--image-preview');
-        if (imagePreview) {
-            imagePreview.classList.add('clickable');
-            imagePreview.addEventListener("click", () => createFullSizeOverlay(item));
-        }
-    },1000);
+    if (allowClickPreviewToShowImageOverlay) {
+        // in case the image preview plugin is loaded, make the preview clickable as well.
+        // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
+        window.setTimeout(() => {
+            const imagePreview = el.querySelector('.filepond--image-preview');
+            if (imagePreview) {
+                imagePreview.classList.add('clickable');
+                imagePreview.addEventListener("click", () => createFullSizeOverlay(item));
+            }
+        },1000);
+    }
 }
 
 export const getMagnifyIcon = (labelButtonOverlay) => {
