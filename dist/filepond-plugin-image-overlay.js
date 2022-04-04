@@ -40,8 +40,16 @@
     const info = el.querySelector('.filepond--file-info'),
       mainInfo = el.querySelector('.filepond--file-info-main'),
       magnifyIcon = getMagnifyIcon(labelButtonOverlay);
-    mainInfo.setAttribute('style', 'margin-left: 23px;');
-    info.append(magnifyIcon);
+    let container = el.querySelector('.filepond--file-info-main-container');
+
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'filepond--file-info-main-container';
+      container.append(mainInfo);
+      info.prepend(container);
+    }
+
+    container.prepend(magnifyIcon);
     magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item)); // in case the image preview plugin is loaded, make the preview clickable as well.
     // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
 
