@@ -165,7 +165,7 @@
             const { id } = props;
             const item = query('GET_ITEM', id); // don't do anything while not an image file or hidden
 
-            if (!isImage(item.file) || root.rect.element.hidden) return;
+            if (root.rect.element.hidden || !isImage(item.file)) return;
           }
         )
       );
