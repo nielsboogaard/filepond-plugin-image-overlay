@@ -22,22 +22,40 @@ const getImageSize = (url, cb) => {
 /**
  * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
  */
-const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
-  const info = el.querySelector('.filepond--file-info-main'),
+const registerFullSizeOverlay = (
+  item,
+  el,
+  labelButtonOverlay,
+  allowClickPreviewToShowImageOverlay
+) => {
+  const info = el.querySelector('.filepond--file-info'),
+    mainInfo = el.querySelector('.filepond--file-info-main'),
     magnifyIcon = getMagnifyIcon(labelButtonOverlay);
 
-  info.prepend(magnifyIcon);
+  let container = el.querySelector('.filepond--file-info-main-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'filepond--file-info-main-container';
+    container.append(mainInfo);
+    info.prepend(container);
+  }
+
+  container.prepend(magnifyIcon);
   magnifyIcon.addEventListener('click', () => createFullSizeOverlay(item));
 
-  // in case the image preview plugin is loaded, make the preview clickable as well.
-  // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
-  window.setTimeout(() => {
-    const imagePreview = el.querySelector('.filepond--image-preview');
-    if (imagePreview) {
-      imagePreview.classList.add('clickable');
-      imagePreview.addEventListener('click', () => createFullSizeOverlay(item));
-    }
-  }, 1000);
+  if (allowClickPreviewToShowImageOverlay) {
+    // in case the image preview plugin is loaded, make the preview clickable as well.
+    // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
+    window.setTimeout(() => {
+      const imagePreview = el.querySelector('.filepond--image-preview');
+      if (imagePreview) {
+        imagePreview.classList.add('clickable');
+        imagePreview.addEventListener('click', () =>
+          createFullSizeOverlay(item)
+        );
+      }
+    }, 1000);
+  }
 };
 
 const getMagnifyIcon = (labelButtonOverlay) => {
@@ -117,7 +135,15 @@ const plugin = (fpAPI) => {
       }
 
       const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
-      registerFullSizeOverlay(item, root.element, labelButtonOverlay);
+      const allowClickPreviewToShowImageOverlay = root.query(
+        'GET_ALLOW_CLICK_PREVIEW_TO_SHOW_IMAGE_OVERLAY'
+      );
+      registerFullSizeOverlay(
+        item,
+        root.element,
+        labelButtonOverlay,
+        allowClickPreviewToShowImageOverlay
+      );
 
       // now ready
       root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', { id });
@@ -134,7 +160,7 @@ const plugin = (fpAPI) => {
           const item = query('GET_ITEM', id);
 
           // don't do anything while not an image file or hidden
-          if (!isImage(item.file) || root.rect.element.hidden) return;
+          if (root.rect.element.hidden || !isImage(item.file)) return;
         }
       )
     );
@@ -144,6 +170,7 @@ const plugin = (fpAPI) => {
   return {
     options: {
       labelButtonImageOverlay: ['Open image in overlay', Type.STRING],
+      allowClickPreviewToShowImageOverlay: [true, Type.BOOLEAN],
     },
   };
 };

@@ -81,3 +81,9 @@
     opacity: 1;
   }
 }
+
+.filepond--file-info-main-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}

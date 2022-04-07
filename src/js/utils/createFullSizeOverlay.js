@@ -3,22 +3,33 @@ import { getImageSize } from './getImageSize';
 /**
  * Register the full size overlay so that it will be instantiated upon clicking the image preview wrapper
  */
-export const registerFullSizeOverlay = (item, el, labelButtonOverlay) => {
-    const info = el.querySelector('.filepond--file-info-main'),
+export const registerFullSizeOverlay = (item, el, labelButtonOverlay, allowClickPreviewToShowImageOverlay) => {
+    const info = el.querySelector('.filepond--file-info'),
+          mainInfo = el.querySelector('.filepond--file-info-main'),
           magnifyIcon = getMagnifyIcon(labelButtonOverlay);
 
-    info.prepend(magnifyIcon);
+    let container = el.querySelector('.filepond--file-info-main-container')
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'filepond--file-info-main-container'
+        container.append(mainInfo);
+        info.prepend(container);
+    }
+
+    container.prepend(magnifyIcon);
     magnifyIcon.addEventListener("click", () => createFullSizeOverlay(item));
 
-    // in case the image preview plugin is loaded, make the preview clickable as well.
-    // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
-    window.setTimeout(() => {
-        const imagePreview = el.querySelector('.filepond--image-preview');
-        if (imagePreview) {
-            imagePreview.classList.add('clickable');
-            imagePreview.addEventListener("click", () => createFullSizeOverlay(item));
-        }
-    },1000);
+    if (allowClickPreviewToShowImageOverlay) {
+        // in case the image preview plugin is loaded, make the preview clickable as well.
+        // we don't have a hook to determine whether that plugin is loaded, as listening to FilePond:pluginloaded doesn't work
+        window.setTimeout(() => {
+            const imagePreview = el.querySelector('.filepond--image-preview');
+            if (imagePreview) {
+                imagePreview.classList.add('clickable');
+                imagePreview.addEventListener("click", () => createFullSizeOverlay(item));
+            }
+        },1000);
+    }
 }
 
 export const getMagnifyIcon = (labelButtonOverlay) => {

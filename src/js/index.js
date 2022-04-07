@@ -30,7 +30,8 @@ const plugin = fpAPI => {
             }
 
             const labelButtonOverlay = root.query('GET_LABEL_BUTTON_IMAGE_OVERLAY');
-            registerFullSizeOverlay(item, root.element, labelButtonOverlay);
+            const allowClickPreviewToShowImageOverlay = root.query('GET_ALLOW_CLICK_PREVIEW_TO_SHOW_IMAGE_OVERLAY');
+            registerFullSizeOverlay(item, root.element, labelButtonOverlay, allowClickPreviewToShowImageOverlay);
 
             // now ready
             root.dispatch('DID_MEDIA_PREVIEW_CONTAINER_CREATE', { id });
@@ -45,7 +46,7 @@ const plugin = fpAPI => {
                 const item = query('GET_ITEM', id);
 
                 // don't do anything while not an image file or hidden
-                if ((!isImage(item.file)) || root.rect.element.hidden) return;
+                if (root.rect.element.hidden || (!isImage(item.file))) return;
             })
         );
     });
@@ -53,7 +54,8 @@ const plugin = fpAPI => {
     // expose plugin
     return {
         options: {
-            labelButtonImageOverlay: ['Open image in overlay', Type.STRING]
+            labelButtonImageOverlay: ['Open image in overlay', Type.STRING],
+            allowClickPreviewToShowImageOverlay: [true, Type.BOOLEAN],
         }
     };
 };
