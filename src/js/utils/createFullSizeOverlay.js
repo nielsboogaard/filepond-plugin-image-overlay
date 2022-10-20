@@ -42,11 +42,8 @@ export const createFullSizeOverlay = (item) => {
 
     determineImageOverlaySize(imgUrl, imgContainer);
 
-    let body = document.getElementsByTagName("body")[0];
-
     overlay.appendChild(imgContainer);
-    body.appendChild(overlay);
-
+    document.getElementById(`filepond--item-${item.id}`).appendChild(overlay);
     overlay.addEventListener("click",() => overlay.remove());
 }
 
