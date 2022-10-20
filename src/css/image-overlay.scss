@@ -23,13 +23,14 @@
 
 .filepond--fullsize-overlay {
     position: absolute;
-    top: 0;
+    top: auto;
     left: 0;
     right: 0;
     bottom: 0;
     padding: 2em;
     background-color: rgba(#000, 0.5);
-    z-index: 10;
+    z-index: 9999;
+    height: 70vh;
 
     .image-container {
         width: 100%;
